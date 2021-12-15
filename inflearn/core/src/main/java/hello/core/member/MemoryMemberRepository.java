@@ -1,5 +1,6 @@
 package hello.core.member;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class MemoryMemberRepository implements MemberRepository{
 
     @Override
     public void save(Member member) {
+        System.out.println("메모리");
         store.put(member.getId(), member);
     }
 
