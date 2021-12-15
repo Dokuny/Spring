@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>게시판 - 글쓰기</title>
+		<link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+	</head>
+	<body>
+		<header th:insert="common/header.html"></header>
+		<div class="container">
+			<div class="form-group row">
+				<span class="col-sm-2 col-form-label"><strong>제목</strong></span>
+				<div class="col-sm-10">
+					<span th:text="${post.title}"/>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group row">
+				<span class="col-sm-2 col-form-label"><strong>작성자</strong></span>
+				<div class="col-sm-10">
+					<span th:text="${post.user}"/>
+				</div>
+			</div>
+			<hr>
+			<div class="form-group row">
+				<span class="col-sm-2 col-form-label"><strong>내용</strong></span>
+				<div class="col-sm-10">
+					<span th:text="${post.text}"/>
+				</div>
+			</div>
+			<hr>
+			<div th:if="${isYours}">
+				<button type="button" th:onclick="|location.href='${uri}/delete'|">삭제</button>
+			</div>
+			<hr>
+			<div>
+				<p><strong>댓글</strong></p>
+				
+				<div>
+					<form th:action="|/board/${post.id}/reply|" method="post">
+						<input type="hidden" name="id" th:value="${post.id}"
+						       style="display: inline-block;">
+						<input type="text" name="user" style="display: inline-block;width: 150px;">
+						<input type="text" name="replyText" style="display: inline-block;width: 500px;">
+						<input type="submit" style="display: inline-block;" value="등록">
+					</form>
+				</div>
+				<table class="table">
+					<thead class="thead-light">
+						<tr class="text-left">
+							<th scope="col">이름</th>
+							<th scope="col">댓글</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="text-left" th:each="reply : ${replies}">
+							<td style="width:150px;">
+								<span th:text="${reply.user}"></span>
+							</td>
+							<td style="width:500px">
+								<span th:text="${reply.replyText}"></span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="row">
+				<div class="col-auto mr-auto"></div>
+				<div class="col-auto">
+					<input class="btn btn-primary" type="button" onclick="location.href='/board'" value="뒤로">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
